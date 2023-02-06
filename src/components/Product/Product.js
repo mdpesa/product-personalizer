@@ -22,6 +22,13 @@ const Product = (props) => {
     return props.basePrice + currentPrice;
   };
 
+  const cartSummary = {
+    name: props.title,
+    price: getPrice(),
+    size: currentSize,
+    color: currentColor,
+  };
+
   return (
     <article className={styles.product}>
       <div className={styles.imageContainer}>
@@ -53,20 +60,6 @@ const Product = (props) => {
                   </button>
                 </li>
               ))}
-              {/* <li>
-                <button type='button' className={styles.active}>
-                  S
-                </button>
-              </li>
-              <li>
-                <button type='button'>M</button>
-              </li>
-              <li>
-                <button type='button'>L</button>
-              </li>
-              <li>
-                <button type='button'>XL</button>
-              </li> */}
             </ul>
           </div>
           <div className={styles.colors}>
@@ -88,7 +81,13 @@ const Product = (props) => {
               ))}
             </ul>
           </div>
-          <Button className={styles.button}>
+          <Button
+            className={styles.button}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log('Summary: ', cartSummary);
+            }}
+          >
             <span className='fa fa-shopping-cart' />
           </Button>
         </form>
