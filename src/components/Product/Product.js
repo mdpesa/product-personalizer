@@ -8,11 +8,18 @@ import shortid from 'shortid';
 const Product = (props) => {
   const [currentColor, setCurrentColor] = useState(props.colors[0]);
   const [currentSize, setCurrentSize] = useState(props.sizes[0].name);
+  const [currentPrice, setCurrentPrice] = useState(
+    props.sizes[0].additionalPrice
+  );
 
   const prepareColorClassName = (color) => {
     return styles[
       'color' + color[0].toUpperCase() + color.substr(1).toLowerCase()
     ];
+  };
+
+  const getPrice = () => {
+    return props.basePrice + currentPrice;
   };
 
   return (
@@ -27,7 +34,7 @@ const Product = (props) => {
       <div>
         <header>
           <h2 className={styles.name}>{props.title}</h2>
-          <span className={styles.price}>Price: {props.basePrice}$</span>
+          <span className={styles.price}>Price: {getPrice()}$</span>
         </header>
         <form>
           <div className={styles.sizes}>
@@ -38,6 +45,7 @@ const Product = (props) => {
                   <button
                     onClick={() => {
                       setCurrentSize(size.name);
+                      setCurrentPrice(size.additionalPrice);
                     }}
                     className={clsx(size.name === currentSize && styles.active)}
                   >
@@ -66,9 +74,10 @@ const Product = (props) => {
             <ul className={styles.choices}>
               {props.colors.map((color) => (
                 <li key={color}>
-                  <button onClick={() => {
-                setCurrentColor(color);
-              }}
+                  <button
+                    onClick={() => {
+                      setCurrentColor(color);
+                    }}
                     type='button'
                     className={clsx(
                       prepareColorClassName(color),
