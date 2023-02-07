@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import ProductImage from '../ProductImage/ProductImage';
 import ProductForm from '../ProductForm/ProductForm';
+import { useMemo } from 'react';
 
 const Product = (props) => {
   const [currentColor, setCurrentColor] = useState(props.colors[0]);
@@ -11,15 +12,23 @@ const Product = (props) => {
     props.sizes[0].additionalPrice
   );
 
-  const getPrice = () => {
-    return props.basePrice + currentPrice;
+  //   const getPrice = () => {
+  //     return props.basePrice + currentPrice;
+  //   };
+  const getPrice = (a, b) => {
+    return a + b;
   };
+
+  const totalPrice = useMemo(
+    () => getPrice(props.basePrice, currentPrice),
+    [props.basePrice, currentPrice]
+  );
 
   const cartSummary = (e) => {
     e.preventDefault();
     console.log('Summary');
     console.log('Name: ', props.title);
-    console.log('Price: ', getPrice());
+    console.log('Price: ', totalPrice);
     console.log('Size: ', currentSize);
     console.log('Color: ', currentColor);
   };
@@ -34,7 +43,7 @@ const Product = (props) => {
       <div>
         <header>
           <h2 className={styles.name}>{props.title}</h2>
-          <span className={styles.price}>Price: {getPrice()}$</span>
+          <span className={styles.price}>Price: {totalPrice}$</span>
         </header>
         <ProductForm
           sizes={props.sizes}
