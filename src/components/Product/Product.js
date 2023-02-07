@@ -47,8 +47,8 @@ const Product = (props) => {
           colors={props.colors}
           currentColor={currentColor}
           setCurrentColor={setCurrentColor}
-          productToBasket={cartSummary}
           onClick={props.onClick}
+          cartSummary={cartSummary}
         />
       </div>
     </article>
